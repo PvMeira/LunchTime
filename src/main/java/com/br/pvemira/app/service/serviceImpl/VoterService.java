@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pvmeira on 17/06/17.
@@ -45,5 +47,15 @@ public class VoterService implements VoterServiceLocal {
     public void updateVoteDateFromVoter(LocalDate date, Voter voter) {
         voter.setLastVoted(date);
         this.voterRepository.save(voter);
+    }
+
+    @Override
+    public List<VoterDTO> listAllVoters() {
+        List<Voter> voters = (List<Voter>) this.voterRepository.findAll();
+        List<VoterDTO> dtoList = new ArrayList<>();
+        voters.stream().forEach(voter -> {
+            dtoList.add(this.voterBO.transformVoter2VoterDTO(voter));
+        });
+        return dtoList;
     }
 }

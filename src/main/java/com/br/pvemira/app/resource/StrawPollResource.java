@@ -49,6 +49,9 @@ public class StrawPollResource {
     @RequestMapping(value = "/getResultCurrentPoll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public StrawPollDTO getResultFromCurrentPoll() {
         StrawPoll currentStrawPoll = this.strawPollService.findCurrentStrawPoll();
+        if(currentStrawPoll == null){
+            return null;
+        }
         List<Vote> voteList = this.voteService.findVotesbyStrawPollId(currentStrawPoll);
         return this.strawPollService.getResultFromCurrentPool(voteList);
     }

@@ -59,4 +59,10 @@ public class RestaurantService implements RestaurantServiceLocal {
         restaurant.getVoteList().add(vote);
         this.restaurantRepository.save(restaurant);
     }
+
+    @Override
+    public void delete(Long id) {
+        this.restaurantRepository.delete(id);
+    }
+
 }

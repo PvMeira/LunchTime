@@ -1,6 +1,7 @@
 package com.br.pvemira.app.service;
 
 import com.br.pvemira.app.model.DTO.StrawPollDTO;
+import com.br.pvemira.app.model.Restaurant;
 import com.br.pvemira.app.model.StrawPoll;
 import com.br.pvemira.app.model.Vote;
 

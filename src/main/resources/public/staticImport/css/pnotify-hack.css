@@ -1,0 +1,34 @@
+.ui-pnotify {
+	z-index: 1040 !important;
+	right: 15px !important;
+    top: 15px !important;
+} 
+
+.ui-pnotify-sticker {
+	display: none !important;
+}
+
+.brighttheme-icon-success {
+    font-size: 27px;
+    width: 25px;
+    height: 25px;
+    margin-top: 0px;
+}
+
+.brighttheme-icon-success:after {
+	top: 6px;
+    left: 3px;
+}
+
+.brighttheme-icon-closer:after {
+	top: -5px;
+    font-size: 20px;
+}
+
+.ui-pnotify-title {
+	font-size: 25px;
+}
+
+.ui-pnotify-text {
+	font-size: 17px;
+}

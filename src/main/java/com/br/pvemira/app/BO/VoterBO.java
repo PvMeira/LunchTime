@@ -29,4 +29,8 @@ public class VoterBO {
         }
         return Boolean.TRUE;
     }
+
+    public VoterDTO transformVoter2VoterDTO(Voter voter) {
+        return new VoterDTO(voter.getId(), voter.getEmail(), voter.getName());
+    }
 }

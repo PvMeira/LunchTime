@@ -10,17 +10,14 @@ public class RestaurantDTO {
 
     private String name;
 
-    private Integer locationId;
-
-    private String locationName;
+    private String location;
 
     private Integer totalVotes;
 
-    public RestaurantDTO(Long id, String name, Integer locationId, String locationName) {
+    public RestaurantDTO(Long id, String name,String location) {
         this.id = id;
         this.name = name;
-        this.locationId = locationId;
-        this.locationName = locationName;
+        this.location = location;
         this.totalVotes = 0;
     }
 
@@ -43,27 +40,19 @@ public class RestaurantDTO {
         this.name = name;
     }
 
-    public Integer getLocation() {
-        return locationId;
-    }
-
-    public void setLocation(Integer location) {
-        this.locationId = location;
-    }
-
-    public String getLocationName() {
-        return locationName;
-    }
-
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
-
     public Integer getTotalVotes() {
         return totalVotes;
     }
 
     public void setTotalVotes(Integer totalVotes) {
         this.totalVotes = totalVotes;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

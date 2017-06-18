@@ -70,8 +70,6 @@ public class StrawPollService implements StrawPollServiceLocal {
     @Override
     public StrawPollDTO getResultFromCurrentPool(List<Vote>voteList) {
         StrawPoll currentStrawPoll = this.findCurrentStrawPoll();
-//        List<Vote> voteList = this.voteService.findVotesbyStrawPollId(currentStrawPoll);
-
         StrawPollDTO pollDTO = this.strawPollBO.tranformStrawPoll2StrawPollSTO(currentStrawPoll);
 
         voteList.stream().forEach(vote -> {
@@ -86,4 +84,5 @@ public class StrawPollService implements StrawPollServiceLocal {
         pollDTO.setRestaurantList(restDTOSorderByTotalVotes);
         return pollDTO;
     }
+
 }

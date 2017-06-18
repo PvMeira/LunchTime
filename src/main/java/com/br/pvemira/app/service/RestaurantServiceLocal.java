@@ -18,4 +18,5 @@ public interface RestaurantServiceLocal {
     void addStrawPollDateToRestaurant(Restaurant r, LocalDate date);
     List<RestaurantDTO>findAllRestaurantsAvaliable(StrawPoll strawPoll);
     void addVoteToRestaurant(Restaurant restaurant,Vote vote);
+    void delete(Long id);
 }

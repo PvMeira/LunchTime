@@ -1,8 +1,5 @@
 package com.br.pvemira.app.model;
 
-import com.br.pvemira.app.enumProject.LocationEnum;
-import com.br.pvemira.app.enumProject.enumConverter.LocationEnumConverter;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -25,20 +22,20 @@ public class Restaurant {
     @Column(name = "NAME", nullable = false, length = 200)
     private String name;
 
-    @Convert(converter = LocationEnumConverter.class)
-    private LocationEnum location;
+    @Column(name = "LOCATION")
+    private String location;
 
     private LocalDate addOnStrawPoll;
 
     public Restaurant() {
     }
 
-    public Restaurant(String name, LocationEnum location) {
+    public Restaurant(String name, String location) {
         this.name = name;
         this.location = location;
     }
 
-    public Restaurant(String name, LocationEnum location, LocalDate addOnStrawPoll) {
+    public Restaurant(String name, String location, LocalDate addOnStrawPoll) {
         this.name = name;
         this.location = location;
         this.addOnStrawPoll = addOnStrawPoll;
@@ -60,13 +57,6 @@ public class Restaurant {
         this.name = name;
     }
 
-    public LocationEnum getLocation() {
-        return location;
-    }
-
-    public void setLocation(LocationEnum location) {
-        this.location = location;
-    }
 
     public LocalDate getAddOnStrawPoll() {
         return addOnStrawPoll;
@@ -82,5 +72,13 @@ public class Restaurant {
 
     public void setVoteList(List<Vote> voteList) {
         this.voteList = voteList;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

@@ -1,10 +1,8 @@
 package com.br.pvemira.app.BO;
 
-import com.br.pvemira.app.enumProject.LocationEnum;
 import com.br.pvemira.app.model.DTO.RestaurantDTO;
 import com.br.pvemira.app.model.Restaurant;
 import com.br.pvemira.app.model.StrawPoll;
-import com.br.pvemira.app.model.Vote;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -17,7 +15,7 @@ import java.util.List;
 public class RestaurantBO {
 
     public Restaurant transformRestaurantDTO2Restaurant(RestaurantDTO a) {
-        return new Restaurant(a.getName(), LocationEnum.findById(a.getLocation()));
+        return new Restaurant(a.getName(), a.getLocation());
     }
 
     public List<RestaurantDTO> transformRestaurants2RestaurantsDTO(List<Restaurant> restaurants, StrawPoll strawPoll) {
@@ -25,7 +23,7 @@ public class RestaurantBO {
         restaurants.stream().forEach(r -> {
             RestaurantDTO dto;
             if (validateRestaurantDate(r, strawPoll)) {
-                dto = new RestaurantDTO(r.getId(), r.getName(), r.getLocation().getId(), r.getLocation().getName());
+                dto = new RestaurantDTO(r.getId(), r.getName(), r.getLocation());
                 restaurantDTOS.add(dto);
             }
 
@@ -34,7 +32,7 @@ public class RestaurantBO {
     }
 
     public RestaurantDTO transformRestaurant2RestaurantDTO(Restaurant r) {
-        return new RestaurantDTO(r.getId(), r.getName(), r.getLocation().getId(), r.getLocation().getName());
+        return new RestaurantDTO(r.getId(), r.getName(), r.getLocation());
     }
 
     private Boolean validateRestaurantDate(Restaurant restaurant, StrawPoll strawPoll) {
