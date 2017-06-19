@@ -24,8 +24,8 @@ public class TimeUtil {
         return instance.after(c);
     }
 
-    public static Boolean validRestaurantForNewPoll(LocalDate date) {
-        long between = ChronoUnit.WEEKS.between(date, LocalDate.now());
+    public static Boolean validRestaurantForNewPoll(LocalDate date,LocalDate date01) {
+        long between = ChronoUnit.DAYS.between(date, date01);
         return Boolean.TRUE ? between > DAYS_TO_VALIDATE_RESTAURANT : Boolean.FALSE;
     }
 }

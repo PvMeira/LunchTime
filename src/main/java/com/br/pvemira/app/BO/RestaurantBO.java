@@ -4,6 +4,7 @@ import com.br.pvemira.app.model.DTO.RestaurantDTO;
 import com.br.pvemira.app.model.Restaurant;
 import com.br.pvemira.app.util.TimeUtil;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class RestaurantBO {
 
     private Boolean validateRestaurantDate(Restaurant restaurant, List<Restaurant> strawPollRestaurants) {
         if (restaurant.getAddOnStrawPoll() != null) {
-            if (TimeUtil.validRestaurantForNewPoll(restaurant.getAddOnStrawPoll())) return Boolean.TRUE;
+            if (TimeUtil.validRestaurantForNewPoll(restaurant.getAddOnStrawPoll(),LocalDate.now())) return Boolean.TRUE;
             else {
                 if (strawPollRestaurants.contains(restaurant)) {
                     return Boolean.TRUE;

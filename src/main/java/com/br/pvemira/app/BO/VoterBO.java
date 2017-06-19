@@ -38,7 +38,7 @@ public class VoterBO {
     public Boolean validateRestaurant(Restaurant restaurant) {
         LocalDate addOnStrawPoll = restaurant.getAddOnStrawPoll();
         if (addOnStrawPoll != null) {
-            return TimeUtil.validRestaurantForNewPoll(addOnStrawPoll);
+            return TimeUtil.validRestaurantForNewPoll(addOnStrawPoll, LocalDate.now());
         }
         return Boolean.TRUE;
     }
