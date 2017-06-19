@@ -1,7 +1,6 @@
 package com.br.pvemira.app.BO;
 
 import com.br.pvemira.app.model.Restaurant;
-import com.br.pvemira.app.model.StrawPoll;
 import com.br.pvemira.app.model.Vote;
 
 import java.util.List;

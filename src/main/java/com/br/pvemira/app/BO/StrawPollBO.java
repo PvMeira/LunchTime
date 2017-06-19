@@ -5,8 +5,6 @@ import com.br.pvemira.app.model.DTO.StrawPollDTO;
 import com.br.pvemira.app.model.Restaurant;
 import com.br.pvemira.app.model.StrawPoll;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,21 +16,6 @@ public class StrawPollBO {
 
     public StrawPollBO() {
         this.restaurantBO = new RestaurantBO();
-    }
-
-
-    public Boolean validateRestaurant(Restaurant restaurant) {
-        if (restaurant.getAddOnStrawPoll() != null) {
-            long between = ChronoUnit.WEEKS.between(restaurant.getAddOnStrawPoll(), LocalDate.now());
-            if (between > 7) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-
-        } else {
-            return Boolean.TRUE;
-        }
     }
 
     public StrawPollDTO tranformStrawPoll2StrawPollSTO(StrawPoll strawPoll) {

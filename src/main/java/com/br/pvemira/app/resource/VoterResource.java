@@ -1,7 +1,6 @@
 package com.br.pvemira.app.resource;
 
 import com.br.pvemira.app.model.DTO.VoterDTO;
-import com.br.pvemira.app.model.Voter;
 import com.br.pvemira.app.service.VoterServiceLocal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

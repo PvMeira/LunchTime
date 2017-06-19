@@ -6,8 +6,6 @@ import com.br.pvemira.app.model.Voter;
 import com.br.pvemira.app.util.TimeUtil;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 /**
  * Created by pvmeira on 17/06/17.

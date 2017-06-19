@@ -72,8 +72,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <p>O Vencedor é o restaurante : {{winner.name}}</p>
-                <p>Com um total de : {{winner.votes}} votos</p>
+                <div uib-alert template-url="alert.html"
+                     style="background-color:#5cb85c;color:#080808">
+                    <h2>O Vencedor é o restaurante : {{winner.name}}</h2>
+                </div>
+                <div uib-alert template-url="alert.html"
+                     style="background-color:#5cb85c;color:#080808;margin-top: 10px;">
+                    <h2>Com um total de : {{winner.votes}} votos</h2>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>

@@ -9,6 +9,7 @@ import java.util.List;
  * Created by pvmeira on 17/06/17.
  */
 public interface VoteServiceLocal {
-    Boolean vote( String email,  Long idRestaurant);
+    Boolean vote(String email, Long idRestaurant);
+
     List<Vote> findVotesbyStrawPollId(StrawPoll poll);
 }

@@ -11,7 +11,10 @@ import java.util.List;
  */
 public interface VoterServiceLocal {
     Boolean addVoter(VoterDTO voter);
+
     Voter findByEmail(String email);
+
     void updateVoteDateFromVoter(LocalDate date, Voter voter);
+
     List<VoterDTO> listAllVoters();
 }

@@ -9,18 +9,23 @@ import java.util.Calendar;
  */
 public class TimeUtil {
 
+    private static final Integer HOUR_TO_POLL_TIME = 11;
+    private static final Integer MINUTE_TO_POLL_TIME = 00;
+    private static final Integer DAYS_TO_VALIDATE_RESTAURANT = 5;
+
     public static Boolean isPassPollTime() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 11);
-        c.set(Calendar.MINUTE, 00);
+        c.set(Calendar.HOUR_OF_DAY, HOUR_TO_POLL_TIME);
+        c.set(Calendar.MINUTE, MINUTE_TO_POLL_TIME);
         c.set(Calendar.SECOND, 0);
         c.set(Calendar.MILLISECOND, 0);
 
         Calendar instance = Calendar.getInstance();
         return instance.after(c);
     }
-    public static Boolean validRestaurantForNewPoll(LocalDate date){
+
+    public static Boolean validRestaurantForNewPoll(LocalDate date) {
         long between = ChronoUnit.WEEKS.between(date, LocalDate.now());
-        return Boolean.TRUE ? between > 7 : Boolean.FALSE;
+        return Boolean.TRUE ? between > DAYS_TO_VALIDATE_RESTAURANT : Boolean.FALSE;
     }
 }

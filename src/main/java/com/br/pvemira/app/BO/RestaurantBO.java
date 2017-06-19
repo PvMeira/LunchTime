@@ -2,11 +2,8 @@ package com.br.pvemira.app.BO;
 
 import com.br.pvemira.app.model.DTO.RestaurantDTO;
 import com.br.pvemira.app.model.Restaurant;
-import com.br.pvemira.app.model.StrawPoll;
 import com.br.pvemira.app.util.TimeUtil;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 

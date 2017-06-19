@@ -47,6 +47,7 @@ public class StrawPollResource {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @RequestMapping(value = "/avaliable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StrawPollDTO> avaliable() {
         if (this.strawPollService.isAvaliable()) {
@@ -55,7 +56,6 @@ public class StrawPollResource {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @RequestMapping(value = "/getResultCurrentPoll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public StrawPollDTO getResultFromCurrentPoll() {
