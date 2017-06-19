@@ -17,7 +17,7 @@ public class TimeUtilTest extends UtilDataTest {
     @Test
     public void validRestaurantForNewPollTrue() {
         LocalDate date = LocalDate.of(2017, 01, 01);
-        LocalDate date1 = LocalDate.of(2017, 01, 06);
+        LocalDate date1 = LocalDate.of(2017, 01, 07);
         Assert.assertTrue(TimeUtil.validRestaurantForNewPoll(date, date1));
     }
 
