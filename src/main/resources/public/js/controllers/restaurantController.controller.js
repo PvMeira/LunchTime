@@ -22,12 +22,16 @@ function RestaurantController($scope, RestaurantService, $resource, notify) {
     }
 
     function addNewRestaurant() {
-        var r = $resource('/app/restaurant');
-        r.save($scope.restaurant, function (response) {
-            notify.successOnSave();
-            $scope.restaurant = {};
-        });
+        if (!$scope.restaurant.name || !$scope.restaurant.location) {
+            notify.alert("Campo Obrigatório");
+        } else {
+            var r = $resource('/app/restaurant');
+            r.save($scope.restaurant, function (response) {
+                notify.successOnSave();
+                $scope.restaurant = {};
+            });
 
+        }
     }
 
 }

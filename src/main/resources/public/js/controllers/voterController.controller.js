@@ -21,14 +21,18 @@ function VoterController($scope, VoterService, $resource, notify) {
     }
 
     function addNewVoter() {
-        var r = $resource('/app/voter');
-        r.save($scope.voter, function (response) {
-            notify.successOnSave();
-            $scope.voter = {};
-        }, function (response) {
-            $scope.voter = {};
-            notify.danger("Esse email já está sendo usado.");
-        });
+        if (!$scope.voter.name || !$scope.voter.email ) {
+            notify.alert("Campo Obrigatório");
+        }else{
+            var r = $resource('/app/voter');
+            r.save($scope.voter, function (response) {
+                notify.successOnSave();
+                $scope.voter = {};
+            }, function (response) {
+                $scope.voter = {};
+                notify.danger("Esse email já está sendo usado.");
+            });
+        }
     }
 
 }

@@ -2,7 +2,7 @@ angular.module("app").config(['$routeProvider', '$httpProvider', r]);
 function r($routeProvider, $httpProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'views/home.html',
+            templateUrl: 'views/common/home.html',
             controller: 'Home as controller'
         })
         .when('/restaurant', {

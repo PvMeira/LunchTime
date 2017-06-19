@@ -64,15 +64,17 @@ function PollController($scope, PollService, $resource, notify, RestaurantServic
     }
 
     function addNewPoll() {
-        if (!$scope.newPoll.name)
+        if (!$scope.newPoll.name) {
             notify.alert("Campo Obrigatorio");
-        PollService.addNewPoll({
-            name: $scope.newPoll.name
-        }, function (response) {
-            notify.successOnSave();
-            $scope.showForm = false;
-            init();
-        });
+        } else {
+            PollService.addNewPoll({
+                name: $scope.newPoll.name
+            }, function (response) {
+                notify.successOnSave();
+                $scope.showForm = false;
+                init();
+            });
+        }
     }
 
     function listAvaliableRestaurant() {
@@ -80,18 +82,24 @@ function PollController($scope, PollService, $resource, notify, RestaurantServic
     }
 
     function addNewVote() {
-        VoteService.addNewVote({
-            email: $scope.newVote.email,
-            idRestaurant: $scope.newVote.idRestaurant
-        }, function (response) {
-            console.log(response)
-            $scope.newVote = {};
-            notify.successOnSave();
-        }, function (response) {
-            $scope.newVote = {};
-            if (response.status === 400) {
-                notify.danger("Erro ao votar : Votante já votou hoje");
-            }
-        });
+        if (!$scope.newVote.email || !$scope.newVote.idRestaurant) {
+            notify.alert("Campo Obrigatório");
+        } else {
+            VoteService.addNewVote({
+                email: $scope.newVote.email,
+                idRestaurant: $scope.newVote.idRestaurant
+            }, function (response) {
+                console.log(response)
+                $scope.newVote = {};
+                notify.successOnSave();
+                init();
+            }, function (response) {
+                $scope.newVote = {};
+                if (response.status === 400) {
+                    notify.danger("Erro ao votar : Votante já votou hoje");
+                }
+            });
+        }
+
     }
 }
