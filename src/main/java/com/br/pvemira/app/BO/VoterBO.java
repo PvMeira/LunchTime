@@ -17,13 +17,12 @@ public class VoterBO {
         return voter;
     }
 
-    public Boolean validateVoter(Voter voter) {
+    public Boolean validateVoter(Voter voter, LocalDate now) {
 
         LocalDate date = voter.getLastVoted();
         if (date != null) {
-            LocalDate date1 = LocalDate.now();
             int day = date.getDayOfMonth();
-            int currentDay = date1.getDayOfMonth();
+            int currentDay = now.getDayOfMonth();
             if (day == currentDay) {
                 return Boolean.FALSE;
             }
@@ -35,10 +34,10 @@ public class VoterBO {
         return new VoterDTO(voter.getId(), voter.getEmail(), voter.getName());
     }
 
-    public Boolean validateRestaurant(Restaurant restaurant) {
+    public Boolean validateRestaurant(Restaurant restaurant, LocalDate now) {
         LocalDate addOnStrawPoll = restaurant.getAddOnStrawPoll();
         if (addOnStrawPoll != null) {
-            return TimeUtil.validRestaurantForNewPoll(addOnStrawPoll, LocalDate.now());
+            return TimeUtil.validRestaurantForNewPoll(addOnStrawPoll, now);
         }
         return Boolean.TRUE;
     }

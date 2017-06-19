@@ -1,5 +1,9 @@
 package com.br.pvemira.app;
 
+import com.br.pvemira.app.model.DTO.VoterDTO;
+import com.br.pvemira.app.model.Restaurant;
+import com.br.pvemira.app.model.Voter;
+
 import java.util.Calendar;
 
 /**
@@ -19,4 +23,16 @@ public abstract class UtilDataTest {
         c.set(Calendar.MILLISECOND, 0);
         return c;
     }
+
+    public VoterDTO getNewVoterDTO() {
+        return new VoterDTO(1L, "Teste@test.vom", "Foo");
+    }
+
+    public Voter getNewVoter() {
+        return new Voter(1L, "Teste@test.vom", "Foo", null);
+    }
+    public Restaurant getNewRestaurant(){
+        return new Restaurant("Ponto 50","Dentro da PUC");
+    }
+
 }

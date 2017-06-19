@@ -66,11 +66,11 @@ public class VoteService implements VoteServiceLocal {
         List<Vote> votesByPollEquals = this.voteRepository.findVotesByPollEquals(currentStrawPoll);
 
         if (voter != null) {
-            validateVoter = this.voterBO.validateVoter(voter);
+            validateVoter = this.voterBO.validateVoter(voter,LocalDate.now());
         }
 
         if (restaurant != null && !this.voteBO.validateRestaurantIsOnCurrentPoll(votesByPollEquals, restaurant)) {
-            validateRestaurant = this.voterBO.validateRestaurant(restaurant);
+            validateRestaurant = this.voterBO.validateRestaurant(restaurant,LocalDate.now());
         }
 
         if (validateVoter && validateRestaurant && restaurant != null && currentStrawPoll != null) {
