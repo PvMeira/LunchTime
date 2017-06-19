@@ -2,9 +2,13 @@ package com.br.pvemira.app;
 
 import com.br.pvemira.app.model.DTO.VoterDTO;
 import com.br.pvemira.app.model.Restaurant;
+import com.br.pvemira.app.model.StrawPoll;
+import com.br.pvemira.app.model.Vote;
 import com.br.pvemira.app.model.Voter;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by pvmeira on 19/06/17.
@@ -31,8 +35,9 @@ public abstract class UtilDataTest {
     public Voter getNewVoter() {
         return new Voter(1L, "Teste@test.vom", "Foo", null);
     }
-    public Restaurant getNewRestaurant(){
-        return new Restaurant("Ponto 50","Dentro da PUC");
+
+    public Restaurant getNewRestaurant() {
+        return new Restaurant("Ponto 50", "Dentro da PUC");
     }
 
 }
