@@ -1,9 +1,12 @@
 package com.br.pvemira.app.BO;
 
 import com.br.pvemira.app.model.DTO.VoterDTO;
+import com.br.pvemira.app.model.Restaurant;
 import com.br.pvemira.app.model.Voter;
+import com.br.pvemira.app.util.TimeUtil;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 /**
@@ -32,5 +35,13 @@ public class VoterBO {
 
     public VoterDTO transformVoter2VoterDTO(Voter voter) {
         return new VoterDTO(voter.getId(), voter.getEmail(), voter.getName());
+    }
+
+    public Boolean validateRestaurant(Restaurant restaurant) {
+        LocalDate addOnStrawPoll = restaurant.getAddOnStrawPoll();
+        if (addOnStrawPoll != null) {
+            return TimeUtil.validRestaurantForNewPoll(addOnStrawPoll);
+        }
+        return Boolean.TRUE;
     }
 }

@@ -18,6 +18,16 @@ function pollService(AppResource) {
                 name: "@name"
             },
             method: 'POST'
+        },
+        newPollAvaliable: {
+            url: '/app/strawPoll/newPollAvaliable',
+            method: 'GET'
+
+        },
+        avaliable: {
+            url: '/app/strawPoll/avaliable',
+            method: 'GET'
+
         }
 
     });

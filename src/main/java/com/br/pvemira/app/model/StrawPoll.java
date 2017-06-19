@@ -14,30 +14,26 @@ public class StrawPoll {
 
     @Id
     @GeneratedValue(generator = "poll_generator")
-    @Column(name = "")
+    @Column(name = "ID_STRAWPOLL")
     private Long id;
 
     @Column(name = "NAME")
     private String name;
 
-    @OneToMany
-    private List<Restaurant> restaurantList;
 
     @Column(name = "DATE")
     private LocalDate date;
 
-    public StrawPoll(String name, List<Restaurant> restaurantList, LocalDate date) {
-        this.name = name;
-        this.restaurantList = restaurantList;
-        this.date = date;
-    }
+    @Column(name = "NEW")
+    private Boolean isNew;
 
     public StrawPoll() {
     }
 
-    public StrawPoll(String name, LocalDate date) {
+    public StrawPoll(String name, LocalDate date,Boolean isNew) {
         this.name = name;
         this.date = date;
+        this.isNew = isNew;
     }
 
     public Long getId() {
@@ -56,13 +52,6 @@ public class StrawPoll {
         this.name = name;
     }
 
-    public List<Restaurant> getRestaurantList() {
-        return restaurantList;
-    }
-
-    public void setRestaurantList(List<Restaurant> restaurantList) {
-        this.restaurantList = restaurantList;
-    }
 
     public LocalDate getDate() {
         return date;
@@ -70,5 +59,13 @@ public class StrawPoll {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public Boolean getNew() {
+        return isNew;
+    }
+
+    public void setNew(Boolean aNew) {
+        isNew = aNew;
     }
 }

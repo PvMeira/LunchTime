@@ -3,6 +3,7 @@ package com.br.pvemira.app.BO;
 import com.br.pvemira.app.model.DTO.RestaurantDTO;
 import com.br.pvemira.app.model.Restaurant;
 import com.br.pvemira.app.model.StrawPoll;
+import com.br.pvemira.app.util.TimeUtil;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -18,11 +19,11 @@ public class RestaurantBO {
         return new Restaurant(a.getName(), a.getLocation());
     }
 
-    public List<RestaurantDTO> transformRestaurants2RestaurantsDTO(List<Restaurant> restaurants, StrawPoll strawPoll) {
+    public List<RestaurantDTO> transformRestaurants2RestaurantsDTO(List<Restaurant> restaurants, List<Restaurant> strawPollRestaurants) {
         List<RestaurantDTO> restaurantDTOS = new ArrayList<>();
         restaurants.stream().forEach(r -> {
             RestaurantDTO dto;
-            if (validateRestaurantDate(r, strawPoll)) {
+            if (validateRestaurantDate(r, strawPollRestaurants)) {
                 dto = new RestaurantDTO(r.getId(), r.getName(), r.getLocation());
                 restaurantDTOS.add(dto);
             }
@@ -35,12 +36,11 @@ public class RestaurantBO {
         return new RestaurantDTO(r.getId(), r.getName(), r.getLocation());
     }
 
-    private Boolean validateRestaurantDate(Restaurant restaurant, StrawPoll strawPoll) {
+    private Boolean validateRestaurantDate(Restaurant restaurant, List<Restaurant> strawPollRestaurants) {
         if (restaurant.getAddOnStrawPoll() != null) {
-            long between = ChronoUnit.WEEKS.between(restaurant.getAddOnStrawPoll(), LocalDate.now());
-            if (between > 7) return Boolean.TRUE;
+            if (TimeUtil.validRestaurantForNewPoll(restaurant.getAddOnStrawPoll())) return Boolean.TRUE;
             else {
-                if (strawPoll.getRestaurantList().contains(restaurant)) {
+                if (strawPollRestaurants.contains(restaurant)) {
                     return Boolean.TRUE;
                 }
                 return Boolean.FALSE;

@@ -20,13 +20,6 @@ public class StrawPollBO {
         this.restaurantBO = new RestaurantBO();
     }
 
-    public Boolean restaurantExistInCurrentStrawPoll(List<Restaurant> restaurants, Restaurant restaurant) {
-        for (Restaurant r : restaurants) {
-            if (r.getId().equals(restaurant.getId()) && r.getAddOnStrawPoll() != null)
-                return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
-    }
 
     public Boolean validateRestaurant(Restaurant restaurant) {
         if (restaurant.getAddOnStrawPoll() != null) {
@@ -43,8 +36,12 @@ public class StrawPollBO {
     }
 
     public StrawPollDTO tranformStrawPoll2StrawPollSTO(StrawPoll strawPoll) {
+        return new StrawPollDTO(strawPoll.getId(), strawPoll.getName(), strawPoll.getDate());
+    }
+
+    public List<RestaurantDTO> tranformRestaurant2RestaurantDTO(List<Restaurant> restaurants) {
         List<RestaurantDTO> restaurantDTOList = new ArrayList<>();
-        strawPoll.getRestaurantList().stream().forEach(restaurant -> restaurantDTOList.add(this.restaurantBO.transformRestaurant2RestaurantDTO(restaurant)));
-        return new StrawPollDTO(strawPoll.getId(), strawPoll.getName(), restaurantDTOList, strawPoll.getDate());
+        restaurants.stream().forEach(restaurant -> restaurantDTOList.add(this.restaurantBO.transformRestaurant2RestaurantDTO(restaurant)));
+        return restaurantDTOList;
     }
 }

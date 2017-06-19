@@ -45,18 +45,24 @@ public class VoteService implements VoteServiceLocal {
 
         Restaurant restaurant = this.restaurantService.findByid(idRestaurant);
         Voter voter = this.voterService.findByEmail(email);
+        List<Vote> votesByPollEquals = this.voteRepository.findVotesByPollEquals(this.strawPollService.findCurrentStrawPoll());
         Boolean validateVoter = Boolean.FALSE;
+        Boolean validateRestaurant = Boolean.TRUE;
+
         if (voter != null) {
             validateVoter = this.voterBO.validateVoter(voter);
         }
+        if (restaurant != null && !this.voteBO.validateRestaurantIsOnCurrentPoll(votesByPollEquals, restaurant)) {
+            validateRestaurant = this.voterBO.validateRestaurant(restaurant);
+        }
         StrawPoll currentStrawPoll = this.strawPollService.findCurrentStrawPoll();
 
-        if (validateVoter && restaurant != null && currentStrawPoll != null) {
+        if (validateVoter && validateRestaurant && restaurant != null && currentStrawPoll != null) {
             Vote vote = new Vote(voter, restaurant, currentStrawPoll);
             this.voteRepository.save(vote);
             this.voterService.updateVoteDateFromVoter(LocalDate.now(), voter);
             this.restaurantService.addVoteToRestaurant(restaurant, vote);
-            this.strawPollService.addRestaurantToCurrentStrawPoll(idRestaurant);
+            this.restaurantService.addStrawPollDateToRestaurant(restaurant, LocalDate.now());
 
             return Boolean.TRUE;
         }

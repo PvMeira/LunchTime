@@ -13,11 +13,16 @@ function restaurantService(AppResource) {
             method: 'GET',
             isArray: true
         },
-        saveRestaurant:{
-            url:'/app/restaurant',
-            method:'POST',
-            params:{
-                dto:"dto"
+        findAll: {
+            url: '/app/restaurant/listAll',
+            method: 'GET',
+            isArray: true
+        },
+        saveRestaurant: {
+            url: '/app/restaurant',
+            method: 'POST',
+            params: {
+                dto: "dto"
             }
         }
     });

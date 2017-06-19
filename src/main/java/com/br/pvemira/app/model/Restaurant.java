@@ -25,6 +25,7 @@ public class Restaurant {
     @Column(name = "LOCATION")
     private String location;
 
+
     private LocalDate addOnStrawPoll;
 
     public Restaurant() {

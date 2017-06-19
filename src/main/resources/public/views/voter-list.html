@@ -14,6 +14,9 @@
             </tr>
             </thead>
             <tbody>
+            <tr data-ng-if="!voters.length">
+                <td colspan="5" class="text-center">Nenhum Registro Encontrado</td>
+            </tr>
             <tr ng-repeat='item in voters'>
                 <td>{{item.name}}</td>
                 <td>{{item.email}}</td>

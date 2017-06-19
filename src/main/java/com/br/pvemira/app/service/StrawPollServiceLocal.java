@@ -17,7 +17,8 @@ public interface StrawPollServiceLocal {
 
     void newStrawPoll(LocalDate date, String name);
 
-    Boolean addRestaurantToCurrentStrawPoll(Long idRestaurant);
-
     StrawPollDTO getResultFromCurrentPool(List<Vote> votes);
+
+    Boolean isAvaliableToANewPoll();
+    Boolean isAvaliable();
 }

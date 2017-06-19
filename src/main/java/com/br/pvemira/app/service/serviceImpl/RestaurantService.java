@@ -7,12 +7,14 @@ import com.br.pvemira.app.model.StrawPoll;
 import com.br.pvemira.app.model.Vote;
 import com.br.pvemira.app.repository.RestaurantRepository;
 import com.br.pvemira.app.service.RestaurantServiceLocal;
-import com.br.pvemira.app.service.StrawPollServiceLocal;
+import com.br.pvemira.app.service.VoteServiceLocal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by pvmeira on 17/06/17.
@@ -48,9 +50,12 @@ public class RestaurantService implements RestaurantServiceLocal {
     }
 
     @Override
-    public List<RestaurantDTO> findAllRestaurantsAvaliable(StrawPoll strawPoll) {
+    public List<RestaurantDTO> findAllRestaurantsAvaliable(StrawPoll strawPoll, List<Vote> votesbyStrawPollId) {
         List<Restaurant> restaurants = (List<Restaurant>) this.restaurantRepository.findAll();
-        List<RestaurantDTO> restaurantDTOS = this.restaurantBO.transformRestaurants2RestaurantsDTO(restaurants, strawPoll);
+
+        List<Restaurant> restaurantList = votesbyStrawPollId.stream().map(vote -> vote.getRestaurant()).distinct().collect(Collectors.toList());
+
+        List<RestaurantDTO> restaurantDTOS = this.restaurantBO.transformRestaurants2RestaurantsDTO(restaurants, restaurantList);
         return restaurantDTOS;
     }
 
@@ -63,6 +68,16 @@ public class RestaurantService implements RestaurantServiceLocal {
     @Override
     public void delete(Long id) {
         this.restaurantRepository.delete(id);
+    }
+
+    @Override
+    public List<RestaurantDTO> listAll() {
+        List<Restaurant> restaurants = (List<Restaurant>) this.restaurantRepository.findAll();
+        List<RestaurantDTO> dtoList = new ArrayList<>();
+        restaurants.stream().forEach(restaurant -> {
+            dtoList.add(this.restaurantBO.transformRestaurant2RestaurantDTO(restaurant));
+        });
+        return dtoList;
     }
 
 }

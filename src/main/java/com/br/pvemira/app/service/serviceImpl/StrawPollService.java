@@ -10,10 +10,12 @@ import com.br.pvemira.app.repository.StrawPollRepository;
 import com.br.pvemira.app.service.RestaurantServiceLocal;
 import com.br.pvemira.app.service.StrawPollServiceLocal;
 import com.br.pvemira.app.service.VoteServiceLocal;
+import com.br.pvemira.app.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,39 +40,33 @@ public class StrawPollService implements StrawPollServiceLocal {
 
     @Override
     public StrawPoll findCurrentStrawPoll() {
-        List<StrawPoll> allStrawPolls = this.strawPollRepository.findAllStrawPolls();
+        List<StrawPoll> allStrawPolls = this.strawPollRepository.findCurrentStrawPoll(LocalDate.now());
         if (!allStrawPolls.isEmpty()) {
             return allStrawPolls.get(0);
         }
         return null;
     }
 
+
     @Override
     public void newStrawPoll(LocalDate date, String name) {
-        this.strawPollRepository.save(new StrawPoll(name, date));
-    }
-
-    @Override
-    public Boolean addRestaurantToCurrentStrawPoll(Long idRestaurant) {
-        StrawPoll strawPoll = this.findCurrentStrawPoll();
-        Restaurant restaurant = this.restaurantService.findByid(idRestaurant);
-        Boolean validateRestaurant = this.strawPollBO.validateRestaurant(restaurant);
-        Boolean inCurrentStrawPoll = this.strawPollBO.restaurantExistInCurrentStrawPoll(strawPoll.getRestaurantList(), restaurant);
-
-        if (!inCurrentStrawPoll && validateRestaurant) {
-            strawPoll.getRestaurantList().add(restaurant);
-            this.restaurantService.addStrawPollDateToRestaurant(restaurant, LocalDate.now());
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
+        StrawPoll poll = this.findCurrentStrawPoll();
+        if (poll != null) {
+            poll.setNew(Boolean.FALSE);
+            this.strawPollRepository.save(poll);
         }
-
+        this.strawPollRepository.save(new StrawPoll(name, date, Boolean.TRUE));
     }
 
+
     @Override
-    public StrawPollDTO getResultFromCurrentPool(List<Vote>voteList) {
+    public StrawPollDTO getResultFromCurrentPool(List<Vote> voteList) {
         StrawPoll currentStrawPoll = this.findCurrentStrawPoll();
         StrawPollDTO pollDTO = this.strawPollBO.tranformStrawPoll2StrawPollSTO(currentStrawPoll);
+
+        List<Restaurant> restaurantList = voteList.stream().map(vote -> vote.getRestaurant()).distinct().collect(Collectors.toList());
+
+        pollDTO.setRestaurantList(this.strawPollBO.tranformRestaurant2RestaurantDTO(restaurantList));
 
         voteList.stream().forEach(vote -> {
             Long idRestaurant = vote.getRestaurant().getId();
@@ -80,9 +76,24 @@ public class StrawPollService implements StrawPollServiceLocal {
                 }
             });
         });
+
         List<RestaurantDTO> restDTOSorderByTotalVotes = pollDTO.getRestaurantList().stream().sorted(Comparator.comparing(RestaurantDTO::getTotalVotes).reversed()).collect(Collectors.toList());
         pollDTO.setRestaurantList(restDTOSorderByTotalVotes);
         return pollDTO;
+    }
+
+    @Override
+    public Boolean isAvaliableToANewPoll() {
+        StrawPoll currentStrawPoll = this.findCurrentStrawPoll();
+        if (currentStrawPoll == null || currentStrawPoll.getNew() == Boolean.FALSE || TimeUtil.isPassPollTime()) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public Boolean isAvaliable() {
+        return TimeUtil.isPassPollTime();
     }
 
 }

@@ -2,8 +2,10 @@ package com.br.pvemira.app.resource;
 
 import com.br.pvemira.app.model.DTO.RestaurantDTO;
 import com.br.pvemira.app.model.StrawPoll;
+import com.br.pvemira.app.model.Vote;
 import com.br.pvemira.app.service.RestaurantServiceLocal;
 import com.br.pvemira.app.service.StrawPollServiceLocal;
+import com.br.pvemira.app.service.VoteServiceLocal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,11 +22,13 @@ import java.util.List;
 public class RestaurantResource {
     private final RestaurantServiceLocal restaurantService;
     private final StrawPollServiceLocal strawPollService;
+    private final VoteServiceLocal voteService;
 
     @Autowired
-    public RestaurantResource(RestaurantServiceLocal restaurantService, StrawPollServiceLocal strawPollService) {
+    public RestaurantResource(RestaurantServiceLocal restaurantService, StrawPollServiceLocal strawPollService, VoteServiceLocal voteService) {
         this.restaurantService = restaurantService;
         this.strawPollService = strawPollService;
+        this.voteService = voteService;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -34,7 +38,7 @@ public class RestaurantResource {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<RestaurantDTO> saveRestaurant(@PathVariable Long id) {
+    public ResponseEntity<RestaurantDTO> deleteRestaurant(@PathVariable Long id) {
         this.restaurantService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -42,7 +46,13 @@ public class RestaurantResource {
     @RequestMapping(value = "/listAllAvaliable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantDTO> findAllRestaurantsAvaliable() {
         StrawPoll currentStrawPoll = this.strawPollService.findCurrentStrawPoll();
-        return this.restaurantService.findAllRestaurantsAvaliable(currentStrawPoll);
+        List<Vote> list = this.voteService.findVotesbyStrawPollId(currentStrawPoll);
+        return this.restaurantService.findAllRestaurantsAvaliable(currentStrawPoll, list);
+    }
+
+    @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<RestaurantDTO> findAll() {
+        return this.restaurantService.listAll();
     }
 
 }

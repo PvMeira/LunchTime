@@ -3,7 +3,6 @@ package com.br.pvemira.app.model.DTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ public class StrawPollDTO {
 
     private List<RestaurantDTO> restaurantList;
 
-    private Boolean isTime;
+    private Boolean isNew;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
@@ -29,6 +28,12 @@ public class StrawPollDTO {
         this.id = id;
         this.name = name;
         this.restaurantList = restaurantList;
+        this.date = date;
+    }
+
+    public StrawPollDTO(Long id, String name, LocalDate date) {
+        this.id = id;
+        this.name = name;
         this.date = date;
     }
 
@@ -65,10 +70,10 @@ public class StrawPollDTO {
     }
 
     public Boolean getTime() {
-        return isTime;
+        return isNew;
     }
 
     public void setTime(Boolean time) {
-        isTime = time;
+        isNew = time;
     }
 }

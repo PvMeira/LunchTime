@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -36,20 +39,28 @@ public class StrawPollResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/addRestaurant/{idRestaurant}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<StrawPollDTO> addNewRestaurantToCurrentPoll(@PathVariable Long idRestaurant) {
-        Boolean poll = this.strawPollService.addRestaurantToCurrentStrawPoll(idRestaurant);
-        if (poll) {
+    @RequestMapping(value = "/newPollAvaliable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StrawPollDTO> newPollAvaliable() {
+        if (this.strawPollService.isAvaliableToANewPoll()) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @RequestMapping(value = "/avaliable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StrawPollDTO> avaliable() {
+        if (this.strawPollService.isAvaliable()) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
+
     @RequestMapping(value = "/getResultCurrentPoll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public StrawPollDTO getResultFromCurrentPoll() {
         StrawPoll currentStrawPoll = this.strawPollService.findCurrentStrawPoll();
-        if(currentStrawPoll == null){
+        if (currentStrawPoll == null) {
             return null;
         }
         List<Vote> voteList = this.voteService.findVotesbyStrawPollId(currentStrawPoll);
