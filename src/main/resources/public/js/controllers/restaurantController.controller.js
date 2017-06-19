@@ -11,16 +11,23 @@ function RestaurantController($scope, RestaurantService, $resource, notify) {
     $scope.restaurant = {};
     init();
 
-
     function init() {
         listAll();
     }
 
+    /**
+     * List all the restaurants that are armazened on the application DB
+     */
     function listAll() {
         $scope.restaurants = RestaurantService.findAll();
 
     }
 
+    /**
+     * Add a new Restaurant to the DataBase, both name and location are required to
+     * the restaurant to be saved.
+     * Callback success : Return a Success message to the screen
+     */
     function addNewRestaurant() {
         if (!$scope.restaurant.name || !$scope.restaurant.location) {
             notify.alert("Campo Obrigatório");

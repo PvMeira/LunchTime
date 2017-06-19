@@ -4,9 +4,4 @@
 angular.module('app').controller("VoteController", ['$scope', 'VoteService', '$resource', 'notify', PollController]);
 
 function PollController($scope, VoteService, $resource, notify) {
-
-    init();
-
-    function init() {
-    }
 }

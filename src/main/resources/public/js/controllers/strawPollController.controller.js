@@ -30,6 +30,11 @@ function PollController($scope, PollService, $resource, notify, RestaurantServic
 
     }
 
+    /**
+     * Get the winner restaurant from the current StrawPoll
+     * The buttom that show the winner is only visible if the
+     * time is more than 11:00 AM
+     */
     function getWinner() {
         PollService.avaliable({}, function (response) {
             if (!$scope.currentPoll.restaurantList) {
@@ -51,10 +56,19 @@ function PollController($scope, PollService, $resource, notify, RestaurantServic
         });
     }
 
+    /**
+     * Get the current strawPoll
+     */
     function listCurrentPoll() {
         $scope.currentPoll = PollService.findCurrentPool();
     }
 
+    /**
+     * Verify if a new StrawPoll can be created, by following 3 conditions :
+     * 1º-If the Current Poll has the NEW filed Boolean.FALSE
+     * 2º-If the Current Poll is null
+     * 3º-If the Time to Show the winner come up
+     */
     function newPollAvaliable() {
         PollService.newPollAvaliable({}, function (response) {
             $scope.showForm = true;
@@ -63,6 +77,10 @@ function PollController($scope, PollService, $resource, notify, RestaurantServic
         })
     }
 
+    /**
+     * Create a new StrawPoll and added to the DB, name is required to
+     * the poll to be saved
+     */
     function addNewPoll() {
         if (!$scope.newPoll.name) {
             notify.alert("Campo Obrigatorio");
@@ -77,10 +95,17 @@ function PollController($scope, PollService, $resource, notify, RestaurantServic
         }
     }
 
+    /**
+     * List all available Restaurants according to the rules on the rest end-point
+     */
     function listAvaliableRestaurant() {
         $scope.avaliableRestaurant = RestaurantService.findAllRestaurants();
     }
 
+    /**
+     * Add a new Vote to the current StrawPoll, both email and idRestaurant are required, so
+     * that the vote can be register in the DB.
+     */
     function addNewVote() {
         if (!$scope.newVote.email || !$scope.newVote.idRestaurant) {
             notify.alert("Campo Obrigatório");

@@ -16,14 +16,21 @@ function VoterController($scope, VoterService, $resource, notify) {
         listAll();
     }
 
+    /**
+     * List all the voters present in the DB of the application
+     */
     function listAll() {
         $scope.voters = VoterService.listAllVoters();
     }
 
+    /**
+     * Add a new Voter to the DB of the application, both name and email
+     * are required so that the new voter can be stored on the DB
+     */
     function addNewVoter() {
-        if (!$scope.voter.name || !$scope.voter.email ) {
+        if (!$scope.voter.name || !$scope.voter.email) {
             notify.alert("Campo Obrigatório");
-        }else{
+        } else {
             var r = $resource('/app/voter');
             r.save($scope.voter, function (response) {
                 notify.successOnSave();
