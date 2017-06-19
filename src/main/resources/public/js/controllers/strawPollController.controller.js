@@ -110,20 +110,25 @@ function PollController($scope, PollService, $resource, notify, RestaurantServic
         if (!$scope.newVote.email || !$scope.newVote.idRestaurant) {
             notify.alert("Campo Obrigatório");
         } else {
-            VoteService.addNewVote({
-                email: $scope.newVote.email,
-                idRestaurant: $scope.newVote.idRestaurant
-            }, function (response) {
-                console.log(response)
+            if ($scope.show === true) {
+                notify.alert("A votação está encerrada por hoje");
                 $scope.newVote = {};
-                notify.successOnSave();
-                init();
-            }, function (response) {
-                $scope.newVote = {};
-                if (response.status === 400) {
-                    notify.danger("Erro ao votar : Votante já votou hoje");
-                }
-            });
+            } else {
+                VoteService.addNewVote({
+                    email: $scope.newVote.email,
+                    idRestaurant: $scope.newVote.idRestaurant
+                }, function (response) {
+                    $scope.newVote = {};
+                    notify.successOnSave();
+                    init();
+                }, function (response) {
+                    $scope.newVote = {};
+                    if (response.status === 400) {
+                        notify.danger("Erro ao votar : Votante já votou hoje");
+                    }
+                });
+            }
+
         }
 
     }
