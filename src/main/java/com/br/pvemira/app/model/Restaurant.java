@@ -35,6 +35,12 @@ public class Restaurant {
         this.name = name;
         this.location = location;
     }
+    public Restaurant(Long id,String name, String location) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+    }
+
 
     public Restaurant(String name, String location, LocalDate addOnStrawPoll) {
         this.name = name;
@@ -81,5 +87,20 @@ public class Restaurant {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Restaurant that = (Restaurant) o;
+
+        return id != null ? id.equals(that.id) : that.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }
