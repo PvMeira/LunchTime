@@ -34,10 +34,10 @@ function RestaurantController($scope, RestaurantService, $resource, notify) {
         } else {
             var r = $resource('/app/restaurant');
             r.save($scope.restaurant, function (response) {
+                $scope.restaurants.push($scope.restaurant);
                 notify.successOnSave();
                 $scope.restaurant = {};
             });
-
         }
     }
 

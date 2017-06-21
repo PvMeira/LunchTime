@@ -34,6 +34,7 @@ function VoterController($scope, VoterService, $resource, notify) {
             var r = $resource('/app/voter');
             r.save($scope.voter, function (response) {
                 notify.successOnSave();
+                $scope.voters.push($scope.voter)
                 $scope.voter = {};
             }, function (response) {
                 $scope.voter = {};

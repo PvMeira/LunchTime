@@ -36,17 +36,13 @@ function PollController($scope, PollService, $resource, notify, RestaurantServic
      * time is more than 11:00 AM
      */
     function getWinner() {
-        PollService.avaliable({}, function (response) {
-            if (!$scope.currentPoll.restaurantList) {
+        if (!$scope.currentPoll.restaurantList) {
 
-            } else {
-                $scope.winner.name = $scope.currentPoll.restaurantList[0].name;
-                $scope.winner.votes = $scope.currentPoll.restaurantList[0].totalVotes;
-            }
-        }, function (response) {
-            $scope.winner.name = "Não definido ainda."
+        } else {
+            $scope.winner.name = $scope.currentPoll.restaurantList[0].name;
+            $scope.winner.votes = $scope.currentPoll.restaurantList[0].totalVotes;
+        }
 
-        })
     }
 
     function winnerButton() {
