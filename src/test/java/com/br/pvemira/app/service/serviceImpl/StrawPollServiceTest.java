@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
@@ -29,21 +31,16 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class StrawPollServiceTest extends UtilDataTest {
-
-    @InjectMocks
-    StrawPollService strawPollService;
-
     @Mock
     StrawPollRepository strawPollRepository;
-
-    @InjectMocks
+    @Mock
     RestaurantService restaurantService;
-
-//    @Mock
-//    RestaurantRepository restaurantRepository;
 
     @Mock
     StrawPollBO pollBO;
+
+    @InjectMocks
+    StrawPollService strawPollService;
 
     @Before
     public void setUp() {
@@ -53,8 +50,9 @@ public class StrawPollServiceTest extends UtilDataTest {
     public void findCurrentStrawPollWhenDataIsPresent() {
         when(strawPollRepository.findCurrentStrawPoll(LocalDate.now())).thenReturn(getNewListOfStrawOrderByDateDesc());
         LocalDate date = LocalDate.of(2017, 11, 07);
-        Assert.assertEquals(this.strawPollService.findCurrentStrawPoll().getDate(),date);
+        assertEquals(this.strawPollService.findCurrentStrawPoll().getDate(), date);
     }
+
     @Test
     public void findCurrentStrawPollWhenNoDataIsPresent() {
         when(strawPollRepository.findCurrentStrawPoll(LocalDate.now())).thenReturn(new ArrayList<>());
@@ -64,20 +62,30 @@ public class StrawPollServiceTest extends UtilDataTest {
 
     @Test
     public void getResultFromCurrentPool() {
-//
-//        List<Vote> listVotes = getListOfVotesFromTheSameStrawPollWithSameRestaurants();
-//        List<Restaurant> restaurants = listVotes.stream().map(vote -> vote.getRestaurant()).collect(Collectors.toList());
-//        StrawPoll poll = getNewStrawPoll();
-//
-//        when(this.pollBO.tranformStrawPoll2StrawPollSTO(poll)).thenReturn(new StrawPollDTO(poll.getId(),poll.getName(),poll.getDate()));
-//        when(this.pollBO.tranformRestaurant2RestaurantDTO(new ArrayList<>())).thenReturn(restaurants);
-//        List<RestaurantDTO> dtos = this.strawPollService.getResultFromCurrentPool(listVotes).getRestaurantList();
-//
-//        Assert.assertEquals(dtos.size(),3);
-//        Assert.assertEquals(dtos.get(0),3);
-//        Assert.assertEquals(dtos.get(1),2);
-//        Assert.assertEquals(dtos.get(2),1);
 
+        List<Vote> listVotes = getListOfVotesFromTheSameStrawPollWithSameRestaurants();
+        List<Restaurant> restaurants = listVotes.stream().map(vote -> vote.getRestaurant()).collect(Collectors.toList());
+        List<RestaurantDTO> dtos = new ArrayList<>();
+        restaurants.stream().forEach(restaurant -> {
+            dtos.add(new RestaurantDTO(restaurant.getId(), restaurant.getName(), restaurant.getLocation()));
+        });
+        StrawPoll poll = getNewStrawPoll();
+
+        when(this.pollBO.tranformStrawPoll2StrawPollSTO(Mockito.any(StrawPoll.class))).thenReturn(new StrawPollDTO(poll.getId(), poll.getName(), poll.getDate()));
+        when(this.pollBO.tranformRestaurant2RestaurantDTO(Mockito.anyList())).thenReturn(dtos);
+        when(this.strawPollRepository.findCurrentStrawPoll(LocalDate.now())).thenReturn(getNewListOfStrawOrderByDateDesc());
+        when(this.restaurantService.getRestaurantsFromVoteList(Mockito.anyList())).thenReturn(getNewListOfStrawOrderByDateDesc());
+
+        List<RestaurantDTO> dtos1 = this.strawPollService.getResultFromCurrentPool(listVotes).getRestaurantList();
+
+        assertEquals(dtos.size(), 6);
+
+        Assert.assertTrue(dtos1.get(0).getTotalVotes().equals(3));
+        Assert.assertTrue(dtos1.get(1).getTotalVotes().equals(3));
+        Assert.assertTrue(dtos1.get(2).getTotalVotes().equals(3));
+        Assert.assertTrue(dtos1.get(3).getTotalVotes().equals(2));
+        Assert.assertTrue(dtos1.get(4).getTotalVotes().equals(2));
+        Assert.assertTrue(dtos1.get(5).getTotalVotes().equals(1));
     }
 
     @Test
