@@ -1,13 +1,16 @@
 package com.br.pvemira.app;
 
+import com.br.pvemira.app.model.DTO.StrawPollDTO;
 import com.br.pvemira.app.model.DTO.VoterDTO;
 import com.br.pvemira.app.model.Restaurant;
 import com.br.pvemira.app.model.StrawPoll;
 import com.br.pvemira.app.model.Vote;
+import com.br.pvemira.app.model.StrawPoll;
 import com.br.pvemira.app.model.Voter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 
@@ -41,9 +44,9 @@ public abstract class UtilDataTest {
         return new Restaurant("Ponto 50", "Dentro da PUC");
     }
 
-    public StrawPoll getNewStrawPoll() {
-        return new StrawPoll("Fake test", LocalDate.now(), Boolean.TRUE);
-    }
+//    public StrawPoll getNewStrawPoll() {
+//        return new StrawPoll("Fake test", LocalDate.now(), Boolean.TRUE);
+//    }
 
     public Vote getNewVote() {
         return new Vote(getNewVoter(), getNewRestaurant(), getNewStrawPoll());
@@ -110,4 +113,11 @@ public abstract class UtilDataTest {
         return r;
     }
 
+    public StrawPoll getNewStrawPoll() {
+        return new StrawPoll("Teste", LocalDate.now(), false);
+    }
+
+    public StrawPollDTO getNewStrawPollDTO() {
+        return new StrawPollDTO(1L, "Teste", LocalDate.now());
+    }
 }
