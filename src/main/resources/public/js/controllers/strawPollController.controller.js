@@ -86,6 +86,7 @@ function PollController($scope, PollService, $resource, notify, RestaurantServic
             }, function (response) {
                 notify.successOnSave();
                 $scope.showForm = false;
+                $scope.newPoll = {};
                 init();
             });
         }
