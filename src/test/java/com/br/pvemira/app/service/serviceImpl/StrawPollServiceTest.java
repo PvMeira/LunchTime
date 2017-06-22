@@ -59,7 +59,6 @@ public class StrawPollServiceTest extends UtilDataTest {
         Assert.assertNull(this.strawPollService.findCurrentStrawPoll());
     }
 
-
     @Test
     public void getResultFromCurrentPool() {
 
@@ -87,13 +86,4 @@ public class StrawPollServiceTest extends UtilDataTest {
         Assert.assertTrue(dtos1.get(4).getTotalVotes().equals(2));
         Assert.assertTrue(dtos1.get(5).getTotalVotes().equals(1));
     }
-
-    @Test
-    public void isAvaliableToANewPoll() {
-    }
-
-    @Test
-    public void isAvaliable() {
-    }
-
 }
